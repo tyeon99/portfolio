@@ -1,0 +1,39 @@
+.introContainer {
+  @apply absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none;
+  z-index: 1; /* 상단바(50)와 Dock(50)보다 낮게 설정 */
+}
+
+/* 메인 타이틀: 그라데이션이 흐르는 효과 */
+.mainTitle {
+  @apply text-[8vw] font-black uppercase tracking-tighter leading-none text-transparent;
+  background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  animation: shine 8s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 300% center; }
+}
+
+/* 보조 설명: 부드러운 호흡 애니메이션 */
+.description {
+  @apply text-white/50 text-xl mt-4 font-light tracking-[0.5em] uppercase;
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.3; transform: scale(0.98); }
+  50% { opacity: 0.7; transform: scale(1); }
+}
+
+/* 배경 아이콘들: 무작위로 흐르는 느낌 */
+.particleIcon {
+  @apply absolute text-white/10 blur-[1px];
+  animation: drift var(--duration) linear infinite;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0) rotate(0deg); }
+  to { transform: translate(var(--x), var(--y)) rotate(360deg); }
+}

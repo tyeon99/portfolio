@@ -1,0 +1,45 @@
+/* 1. 마우스를 감지할 전체 영역 */
+.dockWrapper {
+  @apply fixed bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center pb-4 pt-10 z-50;
+}
+
+/* 2. 유도 문구 */
+.hintText {
+  /* transition-all을 줘서 위치와 투명도 둘 다 애니메이션 되게 함 */
+  @apply mb-2 text-white/50 text-[12px] tracking-widest uppercase transition-all duration-500 ease-in-out pointer-events-none;
+  animation: floatHint 2s ease-in-out infinite;
+}
+
+/* ⭐ 마우스를 dockWrapper에 올리면? */
+.dockWrapper:hover .hintText {
+  /* 1. 위로 슝 올라가게 함 (-translate-y-10)
+     2. 투명하게 만듦 (opacity-0)
+     3. 중요: 기존 애니메이션을 꺼야 opacity-0이 먹힘! (animation: none) */
+  @apply -translate-y-10 opacity-0;
+  animation: none; 
+}
+
+@keyframes floatHint {
+  /* 힌트 텍스트 자체의 움직임 */
+  0%, 100% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(-5px); opacity: 0.6; }
+}
+
+/* 3. 실제 Dock 컨테이너 */
+.dockContainer {
+  @apply flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl transition-all duration-500 ease-out;
+  transform: translateY(120%);
+}
+
+.dockWrapper:hover .dockContainer {
+  @apply translate-y-0;
+}
+
+/* --- 아이콘 스타일은 동일 --- */
+.dockItem { @apply relative flex flex-col items-center transition-all duration-300 ease-out cursor-pointer; }
+.dockIcon { @apply w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 text-white transition-all duration-300; }
+.dockItem:hover .dockIcon { @apply scale-125 -translate-y-2; }
+.activeDot { @apply absolute -bottom-1 w-1 h-1 bg-white/60 rounded-full opacity-0 transition-opacity; }
+.dockItem:hover .activeDot { @apply opacity-100; }
+.tooltip { @apply absolute -top-10 scale-0 bg-black/60 text-white text-[10px] px-2 py-1 rounded-md transition-transform duration-200 pointer-events-none; }
+.dockItem:hover .tooltip { @apply scale-100; }

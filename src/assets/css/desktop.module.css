@@ -1,0 +1,34 @@
+.desktopContainer {
+  @apply absolute inset-0 pt-12 pb-24 px-6 flex justify-between pointer-events-none;
+}
+
+.column {
+  @apply flex flex-col gap-8 pointer-events-auto;
+}
+
+.iconWrapper {
+  @apply flex flex-col items-center gap-1 w-20 cursor-pointer select-none;
+}
+
+.iconBox {
+  @apply w-14 h-14 flex items-center justify-center rounded-xl bg-white/5 backdrop-blur-md border border-white/10 transition-all duration-200;
+}
+
+/* 부모(.iconWrapper) 호버 시 아이콘 박스 배경 변경 */
+.iconWrapper:hover .iconBox {
+  @apply bg-white/20;
+}
+
+/* 부모 클릭(active) 시 아이콘 박스 축소 */
+.iconWrapper:active .iconBox {
+  @apply scale-90;
+}
+
+.label {
+  @apply text-white text-[11px] font-medium text-center px-1 py-0.5 rounded-sm transition-all shadow-sm;
+}
+
+/* 부모 호버 시 라벨 배경 변경 (맥 OS 스타일) */
+.iconWrapper:hover .label {
+  @apply bg-blue-500/80;
+}
