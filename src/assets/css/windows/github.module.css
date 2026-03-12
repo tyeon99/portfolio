@@ -1,0 +1,77 @@
+.container {
+  @apply flex flex-col text-white space-y-6 p-2;
+}
+
+/* 프로필 섹션 */
+.profileHeader {
+  @apply flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10;
+}
+
+.avatar {
+  @apply w-16 h-16 rounded-full border-2 border-white/20 bg-gray-800;
+}
+
+.profileInfo {
+  @apply flex flex-col;
+}
+
+.userName {
+  @apply text-xl font-bold;
+}
+
+.userHandle {
+  @apply text-sm text-white/40 font-mono;
+}
+
+/* 💡 잔디(Contribution) 영역 */
+.contributionWrapper {
+  @apply p-4 bg-white/5 rounded-2xl border border-white/5;
+}
+
+.sectionTitle {
+  @apply text-[11px] font-bold text-white/30 uppercase tracking-widest mb-3 flex items-center gap-2 px-1;
+}
+
+.grassImage {
+  @apply w-full h-auto opacity-80 hover:opacity-100 transition-opacity;
+  filter: invert(1) hue-rotate(180deg); /* 깃허브 다크모드 느낌으로 색상 반전 */
+}
+
+/* 레포지토리 리스트 (기존 유지하되 간격 조절) */
+.repoGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.statValue {
+  @apply block text-lg font-bold text-green-400;
+}
+
+.statLabel {
+  @apply text-[10px] text-white/30 uppercase tracking-wider;
+}
+
+/* 레포지토리 리스트 */
+.repoGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.repoCard {
+  @apply p-4 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer;
+}
+
+.repoName {
+  @apply font-bold text-sm text-blue-400 flex items-center gap-2 mb-1;
+}
+
+.repoDesc {
+  @apply text-xs text-white/50 leading-relaxed line-clamp-2;
+}
+
+.repoFooter {
+  @apply mt-3 flex items-center gap-3 text-[10px] text-white/30;
+}
+
+/* 하단 버튼 */
+.githubBtn {
+  @apply mt-auto w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors flex items-center justify-center gap-2;
+}

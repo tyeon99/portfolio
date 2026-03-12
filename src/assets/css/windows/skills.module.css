@@ -1,0 +1,65 @@
+.container {
+  @apply text-white space-y-8 p-2;
+}
+
+.header {
+  @apply border-b border-white/10 pb-4 mb-6;
+}
+
+.title {
+  @apply text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent;
+}
+
+.subTitle {
+  @apply text-white/40 text-sm mt-1;
+}
+
+.skillsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.groupWrapper {
+  @apply space-y-4;
+}
+
+.categoryHeader {
+  @apply flex items-center gap-2 mb-2;
+}
+
+.categoryLabel {
+  @apply font-semibold text-white/80 uppercase tracking-wider text-xs;
+}
+
+.cardList {
+  @apply space-y-3;
+}
+
+/* 💡 카드 스타일: hover 효과 포함 */
+.skillCard {
+  @apply bg-white/5 border border-white/5 p-4 rounded-xl transition-all duration-300 shadow-sm;
+}
+
+.skillCard:hover {
+  @apply bg-white/10 border-white/20;
+}
+
+.cardHeader {
+  @apply flex justify-between items-start mb-1;
+}
+
+.skillName {
+  @apply font-bold text-white transition-colors;
+}
+
+/* 💡 카드가 호버될 때 이름 색상 변경 */
+.skillCard:hover .skillName {
+  @apply text-blue-300;
+}
+
+.levelBadge {
+  @apply text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30;
+}
+
+.description {
+  @apply text-xs text-white/50 leading-relaxed;
+}

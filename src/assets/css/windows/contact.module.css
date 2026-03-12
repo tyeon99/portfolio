@@ -1,0 +1,62 @@
+.container {
+  @apply flex flex-col items-center justify-center h-full text-white space-y-8 p-4;
+}
+
+.header {
+  @apply text-center space-y-2;
+}
+
+.title {
+  @apply text-3xl font-bold bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent;
+}
+
+.subtitle {
+  @apply text-white/40 text-sm;
+}
+
+.contactGrid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4 w-full px-36;
+}
+
+/* 💡 group 삭제, hover 로직 분리 */
+.contactCard {
+  @apply relative flex-1 flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer;
+}
+
+.iconWrapper {
+  @apply w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-white/70 transition-transform;
+}
+
+/* 💡 부모(.contactCard)가 호버될 때 아이콘 확대 */
+.contactCard:hover .iconWrapper {
+  @apply scale-110;
+}
+
+.info {
+  @apply flex flex-col;
+}
+
+.label {
+  @apply text-[11px] text-white/30 uppercase tracking-widest;
+}
+
+.value {
+  @apply text-sm font-medium;
+}
+
+/* 💡 우측 아이콘 전용 스타일 추가 */
+.actionIconWrapper {
+  @apply ml-auto opacity-20 transition-opacity;
+}
+
+.contactCard:hover .actionIconWrapper {
+  @apply opacity-100;
+}
+
+.copyToast {
+  @apply absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-blue-500 text-white text-[12px] rounded-full opacity-0 pointer-events-none transition-all duration-300;
+}
+
+.copyToast.show {
+  @apply opacity-100 -top-12;
+}

@@ -1,0 +1,140 @@
+.lockContainer {
+  @apply fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden;
+  transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.slideUp {
+  transform: translateY(-100%);
+}
+
+.backgroundBlur {
+  @apply absolute inset-0;
+  background-image: var(--bg-image); /* globals.css의 bg01 사용 */
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.9); /* 전체 블러 + 살짝 어둡게 */
+  transform: scale(1.1); /* 블러 때문에 생기는 가장자리 흰 선 방지 */
+}
+
+.content {
+  @apply relative z-10 flex flex-col items-center justify-between h-full w-full p-20;
+}
+
+/* --- 상단: 시계 --- */
+.topSection {
+  @apply flex flex-col items-center;
+}
+
+.date {
+  @apply text-white text-xl font-bold tracking-tight mb-2;
+}
+
+.time {
+  @apply text-white text-[80px] font-bold leading-none;
+}
+
+/* --- 중앙: 조작 가이드 (고급스러운 HUD 스타일) --- */
+.guideCard {
+  @apply flex flex-col items-center justify-center p-14;
+  @apply transition-all duration-700 ease-out;
+  @apply max-w-[800px] w-full;
+  
+  /* 💡 1. 상자 느낌을 지우기 위해 배경색 투명도를 대폭 낮춤 */
+  background: radial-gradient(
+    circle at center, 
+    rgba(255, 255, 255, 0.08) 0%, 
+    transparent 80%
+  );
+  
+  /* 💡 2. 테두리를 아예 없애거나, 아주 미세한 그라데이션 마스크로 경계 삭제 */
+  -webkit-mask-image: radial-gradient(circle, black 40%, transparent 90%);
+  mask-image: radial-gradient(circle, black 40%, transparent 90%);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.guideTitle {
+  /* 💡 3. 타이틀을 더 작고 세련되게 (애플 시스템 텍스트 느낌) */
+  @apply text-white/60 text-xl font-bold tracking-[0.4em] uppercase mb-10;
+  @apply flex items-center gap-3;
+}
+
+.guideList {
+  /* 💡 4. 텍스트 레이아웃: 행간을 대폭 늘려서 여유로운 느낌 */
+  @apply flex flex-col items-center gap-6 text-white/70;
+}
+
+.guideItem {
+  /* 💡 5. 개별 항목: 폰트 두께를 가볍게 하고 자간을 넓힘 */
+  @apply text-lg font-extralight tracking-widest leading-relaxed;
+  @apply transition-all duration-500;
+  
+  /* 글자 아래 미세한 그림자로 가독성 확보 */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 마우스 근처에 가면 글자가 살짝 밝아지도록 */
+.guideItem:hover {
+  @apply text-white scale-[1.02];
+}
+
+/* --- 하단: 버튼 --- */
+.bottomSection {
+  @apply flex flex-col items-center;
+}
+
+.avatarWrapper {
+  /* 아바타 크기를 살짝 줄이고 더 정갈하게 */
+  @apply w-10 h-10 rounded-full flex items-center justify-center cursor-pointer mb-2;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.avatarWrapper:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.initialIcon {
+  /* T 글자를 너무 크지 않게, 시스템 폰트처럼 */
+  @apply text-xl font-medium text-white/90;
+  user-select: none;
+}
+
+/* 🌟 여기가 핵심: 비밀번호 입력창 스타일의 버튼 🌟 */
+.loginInputWrapper {
+  @apply flex flex-col items-center gap-6;
+}
+
+.userName {
+  @apply text-white text-xl font-semibold tracking-tight;
+}
+
+.startButton {
+  /* 💡 흰색 배경 버리고, 투명한 캡슐형으로 변경 */
+  @apply relative w-56 h-10 rounded-full flex items-center justify-between px-4;
+  @apply bg-white/10 border border-white/20 text-white/50 text-sm font-light;
+  @apply transition-all duration-300 backdrop-blur-md;
+}
+
+.startButton::after {
+  /* 맥북 로그인 창의 '화살표' 버튼 재현 */
+  content: "→";
+  @apply absolute right-1 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-lg;
+  @apply transition-all;
+}
+
+.startButton:hover {
+  @apply bg-white/20 border-white/40 text-white/80;
+}
+
+.startButton:hover::after {
+  @apply bg-white/40;
+}
+
+.startButton:active {
+  @apply scale-[0.98] opacity-80;
+}

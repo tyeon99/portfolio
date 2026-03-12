@@ -1,12 +1,12 @@
 /* 1. 마우스를 감지할 전체 영역 */
 .dockWrapper {
-  @apply fixed bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center pb-4 pt-10 z-50;
+  @apply fixed bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center pb-4 pt-10 z-[999];
 }
 
 /* 2. 유도 문구 */
 .hintText {
   /* transition-all을 줘서 위치와 투명도 둘 다 애니메이션 되게 함 */
-  @apply mb-2 text-white/50 text-[12px] tracking-widest uppercase transition-all duration-500 ease-in-out pointer-events-none;
+  @apply mb-2 text-white/80 text-[12px] tracking-widest uppercase transition-all duration-500 ease-in-out pointer-events-none;
   animation: floatHint 2s ease-in-out infinite;
 }
 

@@ -39,7 +39,7 @@ export default function DesktopIntro() {
         </div>
       ))}
 
-      <div className="text-center z-10">
+      <div className={styles.glassCard}>
         <h1 className={styles.mainTitle}>TaeYeon</h1>
         <p className={styles.description}>Frontend Developer Portfolio</p>
         <div className="mt-8 flex gap-4 justify-center opacity-40 italic text-white text-sm">

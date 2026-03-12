@@ -1,0 +1,32 @@
+.container {
+  @apply flex flex-col h-full text-white/90;
+}
+
+/* 💡 상단 정보바: 윈도우 타이틀바와 여백을 두고 더 세련되게 */
+.infoBar {
+  @apply flex justify-between items-center pb-3 mb-2 border-b border-white/10;
+  @apply text-[11px] text-white/30 font-medium tracking-widest uppercase;
+}
+
+/* 💡 입력 영역: 패딩을 조절해서 윈도우 안쪽으로 쏙 들어가게 */
+.textarea {
+  @apply flex-1 w-full bg-transparent border-none outline-none resize-none;
+  @apply text-[14px] leading-relaxed font-sans text-white/80;
+  /* 스크롤바가 너무 붙지 않게 여백 확보 */
+  @apply pr-2;
+}
+
+/* 스크롤바 커스텀: 더 얇고 미니멀하게 */
+.textarea::-webkit-scrollbar {
+  @apply w-1;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  @apply bg-white/5 rounded-full hover:bg-white/10;
+}
+
+/* 💡 하단 상태바: 아주 은은하게 */
+.statusBar {
+  @apply pt-3 mt-auto border-t border-white/5;
+  @apply text-[10px] text-white/20 font-mono flex justify-between items-center;
+}
