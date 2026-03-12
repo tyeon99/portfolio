@@ -10,6 +10,7 @@ interface LockScreenProps {
 export default function LockScreen({ onStart }: LockScreenProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isExiting, setIsExiting] = useState(false); // 슉 올라가는 애니메이션용
+  const [isReady, setIsReady] = useState(false); // 이미지 로드중
 
   const handleStart = useCallback(() => {
     if (isExiting) return;
@@ -20,7 +21,14 @@ export default function LockScreen({ onStart }: LockScreenProps) {
   }, [isExiting, onStart]);
 
   useEffect(() => {
-    // 💡 1. 실시간 시계 업데이트 (1초마다)
+    // 💡 1. 배경 이미지 선행 로드 (이미지 경로 주의!)
+    const img = new Image();
+    img.src = "/portfolio/img/bg01.jpg"; 
+    img.onload = () => {
+      setTimeout(() => setIsReady(true), 0);
+    };
+
+    // 💡 2. 실시간 시계 업데이트 (1초마다)
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
@@ -72,13 +80,11 @@ export default function LockScreen({ onStart }: LockScreenProps) {
   };
 
   return (
-    <div
-      className={`${styles.lockContainer} ${isExiting ? styles.slideUp : ""}`}
-    >
+    <div className={`${styles.lockContainer} ${isExiting ? styles.slideUp : ""}`}>
       {/* 💡 배경은 전체 블러 처리된 bg01 */}
-      <div className={styles.backgroundBlur} />
+      <div className={`${styles.backgroundBlur} ${isReady ? styles.fadeIn : styles.fadeOut}`} />
 
-      <div className={styles.content}>
+      <div className={`${styles.content} ${isReady ? styles.fadeIn : styles.fadeOut}`}>
         {/* 💡 2. 상단: 크고 굵은 macOS 스타일 시계 */}
         <div className={styles.topSection}>
           <p className={styles.date}>{formatDate(currentTime)}</p>

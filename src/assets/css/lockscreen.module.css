@@ -1,23 +1,39 @@
 .lockContainer {
-  @apply fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden;
+  /* 💡 배경을 쌩까만색으로 해서 밑에 뭐가 있든 안 보이게 함 */
+  @apply fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-[#000];
   transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+/* 🌟 페이드인/아웃 애니메이션 */
+.fadeIn {
+  opacity: 1;
+  filter: blur(0px); /* 글자는 선명하게 나타나야지 */
+  transition: opacity 1.2s ease-in-out, filter 1.2s ease-in-out;
+}
+
+.fadeOut {
+  opacity: 0;
+  filter: blur(20px); /* 처음에 약간 번진 상태에서 시작하면 더 몽환적임 */
+}
+
+/* 배경 블러는 기본적으로 블러가 있어야 하니까 fadeIn에서 조절 */
+.backgroundBlur {
+  @apply absolute inset-0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.9);
+  transform: scale(1.1);
+  /* fadeIn 클래스가 붙었을 때의 트랜지션만 따로 정의 가능 */
+}
+
+/* 컨텐츠도 스르륵 나타나게 */
+.content {
+  @apply relative z-10 flex flex-col items-center justify-between h-full w-full p-20;
 }
 
 .slideUp {
   transform: translateY(-100%);
-}
-
-.backgroundBlur {
-  @apply absolute inset-0;
-  background-image: var(--bg-image); /* globals.css의 bg01 사용 */
-  background-size: cover;
-  background-position: center;
-  filter: blur(8px) brightness(0.9); /* 전체 블러 + 살짝 어둡게 */
-  transform: scale(1.1); /* 블러 때문에 생기는 가장자리 흰 선 방지 */
-}
-
-.content {
-  @apply relative z-10 flex flex-col items-center justify-between h-full w-full p-20;
 }
 
 /* --- 상단: 시계 --- */
