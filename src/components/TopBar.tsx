@@ -42,12 +42,13 @@ const WALLPAPERS = [
 
 // 💡 2. 파라미터에서 { onOpenApp } 받아오기
 export default function TopBar({ onOpenApp }: TopBarProps) {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
+    setCurrentTime(new Date());
 
     WALLPAPERS.forEach((src) => {
       const img = new Image();
@@ -140,6 +141,7 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
   };
 
   const formatTime = (date: Date) => {
+    if (!date) return "...";
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
@@ -189,7 +191,7 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
       <div className={styles.rightMenu}>
         <Wifi size={14} />
         <BatteryMedium size={14} />
-        <span>{isMounted ? formatTime(currentTime) : "..."}</span>
+        <span>{isMounted && currentTime ? formatTime(currentTime) : "..."}</span>
       </div>
     </div>
   );

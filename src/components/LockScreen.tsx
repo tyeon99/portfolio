@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -8,7 +9,8 @@ interface LockScreenProps {
 }
 
 export default function LockScreen({ onStart }: LockScreenProps) {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const [isExiting, setIsExiting] = useState(false); // 슉 올라가는 애니메이션용
   const [isReady, setIsReady] = useState(false); // 이미지 로드중
 
@@ -21,6 +23,9 @@ export default function LockScreen({ onStart }: LockScreenProps) {
   }, [isExiting, onStart]);
 
   useEffect(() => {
+    setIsMounted(true);
+    setCurrentTime(new Date());
+
     // 💡 1. 배경 이미지 선행 로드 (이미지 경로 주의!)
     const img = new Image();
     img.src = "/portfolio/img/bg01.jpg"; 
@@ -87,8 +92,12 @@ export default function LockScreen({ onStart }: LockScreenProps) {
       <div className={`${styles.content} ${isReady ? styles.fadeIn : styles.fadeOut}`}>
         {/* 💡 2. 상단: 크고 굵은 macOS 스타일 시계 */}
         <div className={styles.topSection}>
-          <p className={styles.date}>{formatDate(currentTime)}</p>
-          <h1 className={styles.time}>{formatTime(currentTime)}</h1>
+          <p className={styles.date}>
+            {isMounted && currentTime ? formatDate(currentTime) : "--월 --일 (요일)"}
+          </p>
+          <h1 className={styles.time}>
+            {isMounted && currentTime ? formatTime(currentTime) : "00:00"}
+          </h1>
         </div>
 
         {/* 💡 3. 중앙: 자연스럽게 녹아든 조작 가이드 */}
