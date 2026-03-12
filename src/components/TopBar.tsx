@@ -48,6 +48,12 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
 
   useEffect(() => {
     setIsMounted(true);
+
+    WALLPAPERS.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+    
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     const closeMenu = () => setActiveMenu(null);
     window.addEventListener("click", closeMenu);
