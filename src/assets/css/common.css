@@ -30,3 +30,16 @@ body {
   -webkit-user-select: none; /* 사파리 지원용 */
   color: #fff;
 }
+
+/* 모든 스크롤바 공통 스타일 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

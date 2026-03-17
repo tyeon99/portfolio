@@ -1,0 +1,84 @@
+.container {
+  @apply p-6 space-y-8 bg-transparent text-white; 
+}
+
+/* Profile */
+.profileSection {
+  @apply flex items-center gap-8 pb-8 border-b border-white/10;
+}
+
+.avatar {
+  @apply w-28 h-28 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl 
+         flex items-center justify-center text-5xl font-bold shadow-2xl;
+}
+
+.name {
+  @apply text-3xl font-bold mb-1;
+}
+
+.role {
+  @apply text-blue-400 font-medium mb-3;
+}
+
+.intro {
+  @apply text-white/60 leading-relaxed max-w-xl italic;
+}
+
+/* Philosophy Grid */
+.sectionGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.philosophyCard {
+  @apply bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors;
+}
+
+.cardHeader {
+  @apply flex items-center gap-3 mb-3;
+}
+
+.cardTitle {
+  @apply font-bold text-base;
+}
+
+.cardDesc {
+  @apply text-sm text-white/70 leading-relaxed;
+}
+
+/* Bottom Grid */
+.bottomGrid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
+}
+
+.listHeader {
+  @apply flex items-center gap-2 mb-4;
+}
+
+.listTitle {
+  @apply text-lg font-bold;
+}
+
+.strengthList {
+  @apply space-y-3;
+}
+
+.listItem {
+  @apply flex items-start gap-2 text-sm text-white/80;
+}
+
+/* Timeline */
+.timeline {
+  @apply space-y-4 border-l-2 border-white/10 ml-2 pl-4;
+}
+
+.timelineItem {
+  @apply relative;
+}
+
+.timelineDate {
+  @apply block text-[10px] text-orange-400 font-bold mb-1;
+}
+
+.timelineEvent {
+  @apply text-sm text-white/70;
+}

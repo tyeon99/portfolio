@@ -75,3 +75,23 @@
 .githubBtn {
   @apply mt-auto w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors flex items-center justify-center gap-2;
 }
+
+.grassContainer {
+  @apply relative w-full min-h-[100px] flex items-center justify-center bg-white/5 rounded-xl border border-white/5 overflow-hidden mt-2;
+}
+
+.grassLoader {
+  @apply flex flex-col items-center gap-2 text-[12px] text-white/40;
+}
+
+.grassImage {
+  @apply w-full h-auto transition-opacity duration-500;
+}
+
+.hidden {
+  @apply opacity-0 absolute;
+}
+
+.visible {
+  @apply opacity-100 relative;
+}

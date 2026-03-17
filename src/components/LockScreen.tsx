@@ -107,6 +107,7 @@ export default function LockScreen({ onStart }: LockScreenProps) {
             <li>상단 메뉴바를 통해 시스템 설정을 제어하세요.</li>
             <li>바탕화면 아이콘을 더블 클릭하여 앱을 실행하세요.</li>
             <li>하단 Dock을 통해 빠른 실행이 가능합니다.</li>
+            <li>아래 &apos;Get Started&apos; 버튼 또는 &apos;Enter&apos;를 눌러 시작해 보세요.</li>
           </ul>
         </div>
 

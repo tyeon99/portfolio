@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React from "react";
-import { Github, BookMarked, ExternalLink, Activity, Code2 } from "lucide-react";
+import React, { useState } from "react";
+import { Github, BookMarked, ExternalLink, Activity, Loader2 } from "lucide-react";
 import styles from "@/assets/css/windows/github.module.css";
 
 export default function GithubWindow() {
+  const [isGrassLoading, setIsGrassLoading] = useState(true);
+
   const pinnedRepos = [
     { 
       name: "ws_store", 
@@ -44,11 +46,21 @@ export default function GithubWindow() {
         <h3 className={styles.sectionTitle}>
           <Activity size={12} /> Contributions
         </h3>
-        <img 
-          src="https://ghchart.rshah.org/tyeon99"
-          alt="tyeon99's Github Chart"
-          className={styles.grassImage}
-        />
+        
+        <div className={styles.grassContainer}>
+          {isGrassLoading && (
+            <div className={styles.grassLoader}>
+              <Loader2 size={16} className="animate-spin text-green-500" />
+              <span>잔디 심는 중... 🌿</span>
+            </div>
+          )}
+          <img 
+            src="https://ghchart.rshah.org/tyeon99"
+            alt="tyeon99's Github Chart"
+            className={`${styles.grassImage} ${isGrassLoading ? styles.hidden : styles.visible}`}
+            onLoad={() => setIsGrassLoading(false)} // 💡 로드 완료 시 로딩 해제
+          />
+        </div>
       </div>
 
       {/* 3. 주요 저장소 (Pinned) */}
