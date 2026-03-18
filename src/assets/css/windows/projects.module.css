@@ -1,3 +1,4 @@
+/* --- 기본 컨테이너 --- */
 .container {
   @apply flex h-full bg-transparent text-white overflow-hidden;
 }
@@ -31,35 +32,77 @@
   @apply text-[10px] text-white/50 mt-0.5;
 }
 
-/* --- 오른쪽 상세 내용 --- */
+/* --- 오른쪽 상세 내용 영역 --- */
 .contentArea {
   @apply flex-1 h-full overflow-y-auto p-4 md:p-6 space-y-6 relative;
 }
 
-/* 이미지 갤러리 (상단 고정 비율) */
+/* --- 이미지 갤러리 & Swiper --- */
 .imageGallery {
-  @apply w-full flex gap-4 overflow-x-auto pb-4 snap-x;
+  @apply w-full mb-8 overflow-hidden rounded-2xl border border-white/10 relative;
+}
+
+.mySwiper {
+  @apply w-full h-full;
+  /* Swiper 내부 화살표/점 색상 커스텀 */
+  --swiper-theme-color: #3b82f6; 
+  --swiper-navigation-size: 20px;
 }
 
 .imageWrapper {
-  @apply w-full min-w-[100%] aspect-video bg-black/40 rounded-xl overflow-hidden border border-white/10 snap-center relative shrink-0;
+  @apply relative w-full aspect-video flex items-center justify-center overflow-hidden;
 }
 
-.imagePlaceholder {
-  @apply absolute inset-0 flex items-center justify-center text-white/30 text-sm italic;
+/* 💡 로딩 스피너 컨테이너 */
+.loaderContainer {
+  @apply absolute inset-0 flex items-center justify-center z-10;
+  
+  background-image: url('/portfolio/img/img-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  @apply rounded-xl;
 }
 
 .realImage {
-  @apply w-full h-full object-cover;
+  @apply w-full h-full object-contain transition-opacity duration-500;
 }
 
-/* 텍스트 정보 */
-.infoSection {
-  @apply space-y-6;
+/* 💡 로딩 전후 이미지 투명도 조절 */
+.hidden {
+  opacity: 0;
+}
+
+.loaded {
+  opacity: 1;
+}
+
+/* --- 텍스트 정보 헤더 --- */
+.headerTitleRow {
+  @apply flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2;
 }
 
 .detailTitle {
-  @apply text-3xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent;
+  @apply text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent leading-tight;
+}
+
+/* --- 링크 버튼 --- */
+.linkGroup {
+  @apply flex gap-2;
+}
+
+.linkButton {
+  @apply flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500 text-white text-xs font-bold 
+         transition-all hover:bg-blue-600 hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20;
+}
+
+.linkButton:has(svg[data-lucide="github"]) {
+  @apply bg-white/10 hover:bg-white/20 text-white border border-white/10 shadow-none;
+}
+
+/* --- 상세 정보 섹션 --- */
+.infoSection {
+  @apply space-y-6;
 }
 
 .detailSummary {
@@ -82,18 +125,7 @@
   @apply px-2 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-bold tracking-wider;
 }
 
-.achievements {
-  @apply space-y-3;
-}
-
-.sectionSubtitle {
-  @apply font-bold text-white/90 text-lg;
-}
-
-.achievementList {
-  @apply space-y-2 text-sm text-white/70 leading-relaxed;
-}
-
+/* --- 공통 섹션 헤더 --- */
 .sectionHeader {
   @apply flex items-center gap-2 mb-3 mt-4;
 }
@@ -102,7 +134,11 @@
   @apply font-bold text-white/90 text-lg;
 }
 
-/* 터미널 스타일 */
+.achievementList {
+  @apply space-y-2 text-sm text-white/70 leading-relaxed pl-1;
+}
+
+/* --- 터미널 & 코드 스타일 --- */
 .terminal {
   @apply bg-[#1e1e1e] rounded-xl overflow-hidden border border-white/10 shadow-2xl my-4;
 }
@@ -131,29 +167,28 @@
   @apply whitespace-pre;
 }
 
-/* 성과 리스트 */
-.achievementList {
-  @apply space-y-2 text-sm text-white/70 leading-relaxed pl-1;
+/* --- Swiper 전역 커스텀 (내비게이션 버튼 등) --- */
+:global(.swiper-button-prev),
+:global(.swiper-button-next) {
+  @apply w-10 h-10 flex items-center justify-center transition-all duration-300 bg-none;
+  
+  opacity: 0.3; 
+  --swiper-navigation-color: rgba(255, 255, 255, 0.5);
+  --swiper-navigation-size: 20px;
+  cursor: pointer;
 }
 
-.headerTitleRow {
-  @apply flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2;
+:global(.swiper-button-disabled) {
+  opacity: 0 !important;
+  pointer-events: none; /* 클릭도 안 되게 차단 */
 }
 
-.detailTitle {
-  @apply text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent leading-tight;
+.imageGallery:hover :global(.swiper-button-prev:not(.swiper-button-disabled)),
+.imageGallery:hover :global(.swiper-button-next:not(.swiper-button-disabled)) {
+  opacity: 1;
 }
 
-.linkGroup {
-  @apply flex gap-2;
-}
-
-.linkButton {
-  @apply flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500 text-white text-xs font-bold 
-         transition-all hover:bg-blue-600 hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20;
-}
-
-/* 깃허브 버튼은 조금 다른 색을 주고 싶다면? */
-.linkButton:has(svg[data-lucide="github"]) {
-  @apply bg-white/10 hover:bg-white/20 text-white border border-white/10 shadow-none;
+:global(.swiper-button-prev:not(.swiper-button-disabled)):hover,
+:global(.swiper-button-next:not(.swiper-button-disabled)):hover {
+  @apply scale-110; /* 살짝 커지는 효과 */
 }
