@@ -59,7 +59,7 @@
 }
 
 .strengthList {
-  @apply space-y-3;
+  @apply space-y-3 pt-1;
 }
 
 .listItem {
@@ -76,7 +76,7 @@
 }
 
 .timelineDate {
-  @apply block text-[10px] text-orange-400 font-bold mb-1;
+  @apply block text-[12px] text-orange-400 font-bold mb-1;
 }
 
 .timelineEvent {
