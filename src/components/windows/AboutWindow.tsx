@@ -15,7 +15,7 @@ const ABOUT_DATA = {
   profile: {
     name: "김태연",
     role: "Frontend Developer", 
-    intro: "탄탄한 퍼블리싱 기본기를 바탕으로 프론트엔드 환경을 구축합니다. 단순한 화면 구현을 넘어 '누구나 예측하고 수정하기 쉬운 체계적인 코드'를 작성하는 데 집중합니다.",
+    intro: "탄탄한 퍼블리싱 기본기를 바탕으로 프론트엔드 환경을 구축합니다. 단순한 화면 구현을 넘어 '누구나 예측하고 수정하기 쉬운 체계적인 코드'를 작성하는 데 중점을 둡니다.",
   },
   coreValues: [
     {
@@ -48,7 +48,7 @@ const ABOUT_DATA = {
     { 
       period: "Phase 3. Expansion", 
       event: "React / Next.js 기술 스택 확장",
-      desc: "Vue를 넘어 React와 Next.js를 도입하여 컴포넌트 모듈화 및 데이터 상태 관리 로직을 구축하며 프론트엔드 역량 확장" 
+      desc: "Vue를 넘어 React와 Next.js를 도입하여 컴포넌트 모듈화 및 데이터 상태 관리 로직을 구축하며 프론트엔드 역량 강화" 
     },
     { 
       period: "Phase 2. Frontend System", 
