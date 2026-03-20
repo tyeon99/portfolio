@@ -1,6 +1,6 @@
 /* src/assets/css/topbar.module.css */
 .topBarContainer {
-  @apply absolute top-0 left-0 right-0 h-7 bg-black/20 backdrop-blur-md flex items-center justify-between px-4 text-white text-xs font-medium z-50 select-none max-md:px-2;
+  @apply absolute top-0 left-0 right-0 h-7 bg-black/20 backdrop-blur-md flex items-center justify-between px-4 text-white text-xs font-medium select-none max-md:px-2 z-[9999];
 }
 .leftMenu {
   @apply flex items-center gap-4 max-md:gap-3;
@@ -19,4 +19,12 @@
 }
 .divider {
   @apply my-1 border-t border-white/10;
+}
+
+.copyToast {
+  @apply fixed top-10 left-1/2 -translate-x-1/2 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-full backdrop-blur-md z-[9999] opacity-0 pointer-events-none transition-all duration-300;
+}
+
+.copyToast.show {
+  @apply opacity-100 top-12;
 }

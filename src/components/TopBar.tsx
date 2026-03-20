@@ -12,6 +12,7 @@ interface TopBarProps {
 
 const MENU_DATA = {
   파일: [
+    { label: "이력서 바로보기", action: "view_resume" },
     { label: "이력서 다운로드", action: "download" },
     { label: "GitHub 바로가기", action: "link", url: "https://github.com/tyeon99" },
     { label: "이메일 복사", action: "copy" },
@@ -21,13 +22,14 @@ const MENU_DATA = {
     { label: "배경화면 변경", action: "wallpaper" },
   ],
   보기: [
-    { label: "기술 스택", action: "open_skills" },
+    { label: "자기소개", action: "open_about" },
     { label: "프로젝트 목록", action: "open_projects" },
+    { label: "기술 스택", action: "open_skills" },
     { label: "전체 화면", action: "fullscreen" },
   ],
   도움말: [
-    { label: "태연 OS 정보", action: "about" },
-    { label: "조작 방법", action: "guide" },
+    { label: "태연 OS 정보", action: "open_system" },
+    { label: "조작 방법", action: "open_guide" },
   ],
 };
 
@@ -40,11 +42,14 @@ const WALLPAPERS = [
   "/portfolio/img/bg06.jpg",
 ];
 
+const RESUME_PATH = "/portfolio/pdf/[3년차]프론트엔드_김태연_이력서.pdf";
+
 // 💡 2. 파라미터에서 { onOpenApp } 받아오기
 export default function TopBar({ onOpenApp }: TopBarProps) {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [copyStatus, setCopyStatus] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -66,35 +71,32 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
 
   const handleAction = async (item: { label: string; action: string; url?: string }) => {
     switch (item.action) {
+      case "view_resume":
+        window.open(RESUME_PATH, "_blank");
+        break;
+
       case "link":
         if (item.url) window.open(item.url, "_blank");
         break;
       
       case "copy":
         const email = "xodus170@naver.com";
-        if (navigator.clipboard && window.isSecureContext) {
-          try {
-            await navigator.clipboard.writeText(email);
-            alert("이메일 주소가 복사되었습니다.");
-          } catch (err) { console.error("복사 실패:", err); }
-        } else {
-          const textArea = document.createElement("textarea");
-          textArea.value = email;
-          textArea.style.position = "fixed";
-          textArea.style.left = "-9999px";
-          document.body.appendChild(textArea);
-          textArea.focus();
-          textArea.select();
-          try {
-            document.execCommand('copy');
-            alert("이메일 주소가 복사되었습니다.");
-          } catch (err) { console.error("복사 실패:", err); }
-          document.body.removeChild(textArea);
+        try {
+          await navigator.clipboard.writeText(email);
+          setCopyStatus(true);
+          setTimeout(() => setCopyStatus(false), 2000);
+        } catch (err) {
+          console.error("복사 실패:", err);
         }
         break;
 
       case "download":
-        alert("이력서 다운로드를 시작합니다.");
+        const link = document.createElement("a");
+        link.href = "/portfolio/pdf/[3년차]프론트엔드_김태연_이력서.pdf";
+        link.download = "[3년차]프론트엔드_김태연_이력서.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         break;
 
       case "theme":
@@ -108,7 +110,10 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
         document.documentElement.style.setProperty("--bg-image", `url('${randomImg}')`);
         break;
 
-      // 💡 3. alert 지우고 실제 창 열기 함수 연결
+      case "open_about":
+        onOpenApp?.("about", null);
+        break;
+
       case "open_skills":
         onOpenApp?.("skills", null);
         break;
@@ -125,12 +130,12 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
         }
         break;
 
-      case "about":
-        alert("🍎 TaeYeon OS v1.0.0\n\n프론트엔드 개발자 김태연의 포트폴리오 시스템입니다.\nStack: Next.js 15, TypeScript, Tailwind CSS");
+      case "open_system":
+        onOpenApp?.("system", null); // 시스템 정보 전용 ID
         break;
 
-      case "guide":
-        alert("💡 조작 가이드\n\n1. 상단 메뉴바를 통해 시스템 설정을 제어하세요.\n2. 바탕화면 아이콘을 더블 클릭하여 앱을 실행하세요.\n3. 하단 Dock을 통해 빠른 실행이 가능합니다.");
+      case "open_guide":
+        onOpenApp?.("guide", null); // 가이드 전용 ID
         break;
 
       default:
@@ -155,6 +160,10 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
 
   return (
     <div className={styles.topBarContainer}>
+      {/* 복사 완료 토스트메세지 */}
+      <div className={`${styles.copyToast} ${copyStatus ? styles.show : ""}`}>
+        Copied!
+      </div>
       <div className={styles.leftMenu}>
         <Command size={14} className="cursor-pointer" />
         <span className="font-bold cursor-pointer ml-1">TaeYeon</span>

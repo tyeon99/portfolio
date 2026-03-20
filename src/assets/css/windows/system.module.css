@@ -1,0 +1,36 @@
+.container {
+  @apply flex flex-col items-center p-8 text-white select-none;
+}
+
+.logoBox {
+  @apply w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-600 
+         rounded-2xl flex items-center justify-center shadow-lg mb-6 text-4xl font-bold;
+}
+
+.title {
+  @apply text-2xl font-bold mb-1;
+}
+
+.version {
+  @apply text-gray-300 text-sm mb-6;
+}
+
+.specList {
+  @apply w-full space-y-3 text-sm;
+}
+
+.specItem {
+  @apply flex justify-between border-b border-white/10 pb-1;
+}
+
+.label {
+  @apply font-semibold text-gray-200;
+}
+
+.value {
+  @apply text-gray-300;
+}
+
+.copyright {
+  @apply mt-8 text-[10px] text-gray-500 text-center;
+}

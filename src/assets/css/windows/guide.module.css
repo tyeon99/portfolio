@@ -1,0 +1,23 @@
+.container {
+  @apply p-6 text-white;
+}
+
+.header {
+  @apply text-xl font-bold mb-6 text-blue-400;
+}
+
+.list {
+  @apply space-y-4;
+}
+
+.item {
+  @apply flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10;
+}
+
+.iconBox {
+  @apply mt-1 p-2 bg-blue-500/20 rounded-lg text-blue-400;
+}
+
+.text {
+  @apply text-sm leading-relaxed text-gray-200;
+}

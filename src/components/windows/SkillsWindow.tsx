@@ -46,7 +46,7 @@ const SKILL_DATA = [
   },
   {
     category: "Design & Tools",
-    icon: <Wrench className="text-gray-400" />,
+    icon: <Wrench className="text-gray-300" />,
     skills: [
       { name: "Figma", level: "Intermediate", desc: "디자인 시스템 이해 및 UI 협업" },
       { name: "Git / GitHub", level: "Advanced", desc: "Git-flow 전략을 통한 협업 경험" },

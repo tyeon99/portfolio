@@ -12,7 +12,7 @@
 }
 
 .sidebarTitle {
-  @apply text-sm font-bold text-white/50 uppercase tracking-widest mb-4 px-2;
+  @apply text-sm font-bold text-white/70 uppercase tracking-widest mb-4 px-2;
 }
 
 .projectList {
@@ -32,7 +32,7 @@
 }
 
 .itemType {
-  @apply text-[10px] text-white/50 mt-0.5;
+  @apply text-[10px] text-white/70 mt-0.5;
 }
 
 /* --- 오른쪽 상세 내용 영역 --- */
@@ -117,7 +117,7 @@
 }
 
 .metaBadge {
-  @apply flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-white/70;
+  @apply flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-white/80;
 }
 
 .techStack {
@@ -138,7 +138,7 @@
 }
 
 .achievementList {
-  @apply space-y-2 text-sm text-white/70 leading-relaxed pl-1;
+  @apply space-y-2 text-sm text-white/80 leading-relaxed pl-1;
 }
 
 /* --- 터미널 & 코드 스타일 --- */

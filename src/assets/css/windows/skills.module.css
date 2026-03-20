@@ -61,5 +61,5 @@
 }
 
 .description {
-  @apply text-xs text-white/50 leading-relaxed;
+  @apply text-xs text-white/70 leading-relaxed;
 }

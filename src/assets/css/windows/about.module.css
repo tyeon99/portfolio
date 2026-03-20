@@ -21,7 +21,7 @@
 }
 
 .intro {
-  @apply text-white/60 leading-relaxed max-w-xl italic;
+  @apply text-white/70 leading-relaxed max-w-xl italic;
 }
 
 /* Philosophy Grid */
@@ -42,7 +42,7 @@
 }
 
 .cardDesc {
-  @apply text-sm text-white/70 leading-relaxed;
+  @apply text-sm text-white/80 leading-relaxed;
 }
 
 /* Bottom Grid */
@@ -80,5 +80,37 @@
 }
 
 .timelineEvent {
-  @apply text-sm text-white/70;
+  @apply text-sm text-white/80;
+}
+
+.resumeSection {
+  @apply mt-10;
+}
+
+.resumeCard {
+  /* 기본은 세로 정렬(mobile), sm(640px) 이상부터 가로 정렬 */
+  @apply flex flex-col sm:flex-row justify-between items-center gap-5 p-5 bg-white/5 border border-white/10 rounded-xl text-center sm:text-left;
+}
+
+.resumeText {
+  @apply flex items-center gap-2.5 text-[0.95rem] text-[#ddd];
+}
+
+.buttonGroup {
+  @apply flex gap-2.5;
+}
+
+/* 버튼 공통 스타일 */
+.viewButton, .downloadButton {
+  @apply flex items-center gap-1.5 px-4 py-2 rounded-lg text-[0.9rem] font-medium transition-all duration-200 no-underline;
+}
+
+/* 이력서 바로보기 (Apple Blue) */
+.viewButton {
+  @apply bg-[#007aff] text-white hover:bg-[#0063d1];
+}
+
+/* 이력서 다운로드 (Glassmorphism 스타일) */
+.downloadButton {
+  @apply bg-white/10 border border-white/20 text-white hover:bg-white/20;
 }

@@ -8,25 +8,40 @@ import DesktopIntro from "@/components/Intro";
 import DesktopIcons, { ALL_APPS } from "@/components/DesktopIcons";
 import WindowManager from "@/components/WindowManager";
 
-export default function Home() {
-  // 잠금 화면
-  const [isLocked, setIsLocked] = useState(true);
+const APP_CONFIG: Record<string, { w: number; h: number }> = {
+  system: { w: 380, h: 520 },
+  guide: { w: 550, h: 450 },
+  memo: { w: 400, h: 450 },
+  default: { w: 1000, h: 600 }
+};
 
+export default function Home() {
+  const [isLocked, setIsLocked] = useState(true);
   const [openWindowData, setOpenWindowData] = useState<{ id: string; fromRect: DOMRect | null }[]>([]);
   const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>({});
   const [sizes, setSizes] = useState<Record<string, { w: number; h: number }>>({});
   const [windowAnimationState, setWindowAnimationState] = useState<Record<string, "initial" | "final">>({});
   const [maximizedApps, setMaximizedApps] = useState<string[]>([]);
 
-  // 라벨 매핑용 데이터
-  const appLabels = ALL_APPS.reduce((acc, app) => ({ ...acc, [app.id]: app.label }), {});
+  const appLabels = ALL_APPS.reduce((acc, app) => ({ ...acc, [app.id]: app.label }), {} as Record<string, string>);
 
   const handleOpenApp = (id: string, rect: DOMRect | null) => {
     if (!openWindowData.some((win) => win.id === id)) {
-      setOpenWindowData((prev) => [...prev, { id, fromRect: rect }]);
+      const config = APP_CONFIG[id as keyof typeof APP_CONFIG] || APP_CONFIG.default;
       const count = openWindowData.length;
-      setPositions((prev) => ({ ...prev, [id]: { x: 150 + count * 40, y: 100 + count * 40 } }));
-      setSizes((prev) => ({ ...prev, [id]: { w: 1000, h: 600 } }));
+
+      setOpenWindowData((prev) => [...prev, { id, fromRect: rect }]);
+      
+      setPositions((prev) => ({ 
+        ...prev, 
+        [id]: { x: 150 + count * 40, y: 100 + count * 40 } 
+      }));
+
+      setSizes((prev) => ({ 
+        ...prev, 
+        [id]: { w: config.w, h: config.h } 
+      }));
+
       setWindowAnimationState((prev) => ({ ...prev, [id]: "initial" }));
       setTimeout(() => setWindowAnimationState((prev) => ({ ...prev, [id]: "final" })), 50);
     } else {
@@ -39,6 +54,8 @@ export default function Home() {
     setTimeout(() => {
       setOpenWindowData((prev) => prev.filter((app) => app.id !== id));
       setMaximizedApps((prev) => prev.filter(appId => appId !== id));
+      setPositions(prev => { const n = {...prev}; delete n[id]; return n; });
+      setSizes(prev => { const n = {...prev}; delete n[id]; return n; });
     }, 400);
   };
 
@@ -51,16 +68,13 @@ export default function Home() {
 
   return (
     <main className="relative h-screen w-full overflow-hidden">
-      {/* 💡 잠금화면이 true일 때만 렌더링 */}
       {isLocked && <LockScreen onStart={() => setIsLocked(false)} />}
 
       <TopBar onOpenApp={handleOpenApp} />
       <DesktopIntro />
       
-      {/* 1. 아이콘 레이어 */}
       <DesktopIcons onOpenApp={handleOpenApp} />
 
-      {/* 2. 윈도우 관리 레이어 (분리 완료!) */}
       <WindowManager 
         openWindowData={openWindowData}
         positions={positions}
@@ -75,7 +89,6 @@ export default function Home() {
         appLabels={appLabels}
       />
 
-      {/* 3. 독 레이어 */}
       <Dock onOpenApp={handleOpenApp} />
     </main>
   );

@@ -7,7 +7,10 @@ import {
   CheckCircle2,
   MessageSquare,
   Users,
-  TrendingUp
+  TrendingUp,
+  ExternalLink,
+  FileText,
+  Download
 } from "lucide-react";
 import styles from "@/assets/css/windows/about.module.css";
 
@@ -64,6 +67,8 @@ const ABOUT_DATA = {
 };
 
 export default function AboutWindow() {
+  const RESUME_URL = "/portfolio/pdf/[3년차]프론트엔드_김태연_이력서.pdf";
+
   return (
     <div className={styles.container}>
       {/* 1. Profile Section */}
@@ -121,6 +126,35 @@ export default function AboutWindow() {
           </div>
         </section>
       </div>
+
+      {/* 이력서 다운로드/바로보기 */}
+      <section className={styles.resumeSection}>
+        <div className={styles.resumeCard}>
+          <div className={styles.resumeText}>
+            <FileText size={20} className="text-blue-400" />
+            <span>상세한 이력이 궁금하시다면 이력서를 확인해 보세요.</span>
+          </div>
+          <div className={styles.buttonGroup}>
+            <a 
+              href={RESUME_URL} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={styles.viewButton}
+            >
+              <ExternalLink size={16} />
+              이력서 바로보기
+            </a>
+            <a 
+              href={RESUME_URL} 
+              download="[3년차]프론트엔드_김태연_이력서.pdf" 
+              className={styles.downloadButton}
+            >
+              <Download size={16} />
+              다운로드
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

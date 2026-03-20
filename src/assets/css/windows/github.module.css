@@ -64,7 +64,7 @@
 }
 
 .repoDesc {
-  @apply text-xs text-white/50 leading-relaxed line-clamp-2;
+  @apply text-xs text-white/70 leading-relaxed line-clamp-2;
 }
 
 .repoFooter {

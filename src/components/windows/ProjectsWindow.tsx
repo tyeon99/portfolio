@@ -36,19 +36,36 @@ const PROJECT_DATA = [
       { label: "URL", url: "https://wsfarm.co.kr", icon: <Globe size={14} /> },
       { label: "GitHub", url: "https://github.com/tyeon99/ws_store", icon: <Github size={14} /> }
     ],
-    summary: "상주 농가 직거래를 위한 D2C 커머스 플랫폼입니다. 단순 커머스 기능을 넘어 '시즌 테마 시스템'과 '장바구니 유지 로직' 등 실사용자 편의성 개선을 목표로 개발 중입니다.",
+    summary: "부모님 농장의 과일 직거래를 위해 만든 사이트입니다. 단순히 물건을 파는 것을 넘어, 로그인 전후의 장바구니 데이터를 자연스럽게 합치고 토큰 기반으로 세션을 꼼꼼하게 관리하는 등 사용자가 재접속하거나 로그인할 때 겪을 수 있는 번거로움을 해결하는 데 집중했습니다.",
     achievements: [
-      "상태 관리 라이브러리(Pinia)와 LocalStorage를 연동하여 비로그인 사용자의 장바구니 데이터를 로그인 후에도 유실 없이 병합하는 로직 설계",
-      "CSS 변수와 Tailwind 구성을 활용해 소스 코드 수정 없이 여름/겨울 테마를 즉시 전환할 수 있는 테마 스위칭 시스템 구축",
-      "Nuxt.js의 Server Side Rendering을 활용하여 농산물 키워드 검색 엔진 최적화(SEO) 및 초기 로딩 속도 개선",
-      "반복되는 API 호출 최적화를 위해 공통 Fetch 모듈을 설계하고 인터셉터를 통한 전역 에러 핸들링 구현"
-    ],
-    codeSnippet: `// 시즌별 테마 변수를 CSS Variable로 제어
-const toggleSeason = (season: 'summer' | 'winter') => {
-  const theme = season === 'summer' ? summerConfig : winterConfig;
-  Object.entries(theme).forEach(([key, value]) => {
-    document.documentElement.style.setProperty(\`--theme-\${key}\`, value);
-  });
+    "Pinia와 쿠키를 연동해 새로고침을 해도 로그인이 유지되도록 인증 시스템을 잡았고, 자동 로그인 체크 여부에 따라 쿠키의 유효기간을 7일 또는 세션 종료 시점으로 나눠서 관리",
+    "로그인 여부에 따라 장바구니 데이터가 로컬 스토리지와 서버 사이에서 유실되지 않도록 데이터 병합(Merge) 로직을 직접 설계",
+    "매번 API를 요청할 때마다 헤더에 토큰을 넣는 번거로움을 줄이려 공통 Fetch 모듈을 만들었으며, 토큰 만료(401 에러) 시 전역 알림을 띄우고 로그아웃시키는 예외 처리를 자동화",
+    "소스 코드 수정 없이 CSS 변수값만 갈아 끼우면 사이트 전체 분위기(여름/겨울)를 한 번에 바꿀 수 있는 시즌 테마 시스템을 구축"
+  ],
+    codeSnippet: `// Pinia Store: 비로그인(Guest) 장바구니 데이터를 로그인(Member) 계정으로 병합
+const mergeLocalCart = async () => {
+  if (cartItems.value.length === 0) return await fetchCartList();
+
+  // 1. 로컬 저장소의 품목들을 서버 API 포맷(Bulk)으로 가공
+  const itemsToSync = cartItems.value.map(item => ({
+    productId: item.id,
+    quantity: item.quantity
+  }));
+
+  try {
+    // 2. 서버 API 호출: 이미 있는 상품은 수량을 합산(Upsert)하는 백엔드 로직과 연동
+    await useMainFetch('/api/user/cart/add', {
+      method: 'POST',
+      body: { items: itemsToSync }
+    });
+
+    // 3. 동기화 성공 후, 서버의 최종 목록을 다시 불러와 로컬 상태를 덮어씌움 (Single Source of Truth)
+    await fetchCartList();
+  } catch (error) {
+    console.error('장바구니 동기화 실패:', error);
+    await fetchCartList(); // 에러 발생 시에도 서버 데이터로 복구 시도
+  }
 };`
   },
   {
@@ -66,14 +83,24 @@ const toggleSeason = (season: 'summer' | 'winter') => {
     summary: "macOS 인터페이스를 웹으로 구현한 인터랙티브 포트폴리오입니다. 실제 OS와 유사한 사용자 경험과 안정적인 하이드레이션 처리에 중점을 두었습니다.",
     achievements: [
       "Next.js App Router 환경에서 클라이언트 컴포넌트 마운트 시점을 제어하는 'isMounted' 패턴으로 SSR/CSR 간 하이드레이션 불일치 에러 해결",
-      "브라우저 캐시를 활용한 이미지 프리로딩(Image Preloading) 기법으로 윈도우 전환 시 발생하는 레이아웃 시프트와 검은 화면 현상 방지",
+      "시스템 부팅 시점에 배경화면 및 주요 에셋을 Image 객체로 선제적 프리로딩(Preloading)하여, 앱 실행 시 발생하는 화이트 플래시 현상을 해결",
       "Framer Motion을 활용해 실제 OS와 흡사한 창 최소화/최대화 애니메이션 및 드래그 앤 드롭 시스템 구현",
       "GitHub Actions를 활용한 CI/CD 파이프라인 구축으로 자동 빌드 및 정적 배포(Export) 프로세스 최적화"
     ],
-    codeSnippet: `// SSR 환경에서 안정적인 클라이언트 렌더링을 위한 가드
-const [isMounted, setIsMounted] = useState(false);
-useEffect(() => setIsMounted(true), []);
-if (!isMounted) return null;`
+    codeSnippet: `// [핵심 로직] 하이드레이션 에러 방지 및 시스템 리소스 선제적 프리로딩
+useEffect(() => {
+  setIsMounted(true); // 1. 클라이언트 마운트 확정 후 렌더링 (SSR 불일치 해결)
+
+  // 2. 배경화면 등 무거운 리소스를 브라우저 캐시에 미리 로드하여 전환 딜레이 제거
+  WALLPAPERS.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
+
+  // 3. 시스템 시간 업데이트 및 전역 이벤트 리스너(메뉴 닫기 등) 초기화
+  const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+  return () => clearInterval(timer);
+}, []);`
   },
   {
     id: "kiwoom",
@@ -91,12 +118,33 @@ if (!isMounted) return null;`
       "iOS/Android 웹뷰 환경에서 발생하는 Safe Area 이슈 및 기기별 레이아웃 깨짐 현상을 해결하여 크로스 브라우징 안정성 확보",
       "디자인 시스템 가이드를 기반으로 Figma를 활용한 기술적 역제안을 통해 퍼블리싱 생산성 및 UI 일관성 향상"
     ],
-    codeSnippet: `// AI 응답 데이터 타입에 따른 동적 컴포넌트 렌더링
+    codeSnippet: `// [핵심 로직] 비동기 컴포넌트 팩토리를 활용한 확장형 메시지 디스패처
+import { defineAsyncComponent } from 'vue';
+
+// 타입별 컴포넌트 매핑 (신규 타입 추가 시 이 객체만 업데이트하면 됨)
+const COMPONENT_MAP = {
+  TEXT:   defineAsyncComponent(() => import('./types/Text.vue')),
+  CHART:  defineAsyncComponent(() => import('./types/StockChart.vue')),
+  LIST:   defineAsyncComponent(() => import('./types/PriceList.vue')),
+  REPORT: defineAsyncComponent(() => import('./types/AnalysisReport.vue')),
+};
+
+export default {
+  props: ['message'],
+  setup(props) {
+    // 템플릿의 조건부 렌더링(v-if)을 제거하고 로직을 추상화하여 유지보수성 향상
+    const resolveComponent = (type) => COMPONENT_MAP[type] || COMPONENT_MAP.TEXT;
+    return { resolveComponent };
+  }
+}
+
+// 필요 시점에만 컴포넌트를 로드하여 초기 렌더링 성능 최적화.
 <template>
-  <div class="chat-response">
+  <div class="chat-response-node">
     <component 
-      :is="responseMap[item.type]" 
-      :content="item.data" 
+      :is="resolveComponent(message.type)" 
+      :payload="message.data"
+      @action="$emit('interaction')" 
     />
   </div>
 </template>`
@@ -120,14 +168,42 @@ if (!isMounted) return null;`
       "음성 인식(STT) API 연동으로 타이핑이 익숙하지 않은 고령층 사용자를 위한 접근성 강화 및 사용자 이탈률 감소",
       "체험 종료 후 사용자 대응 패턴 분석 결과를 시각화된 리포트 화면으로 구성하여 정보 전달력 개선"
     ],
-    codeSnippet: `// 실제 메신저 느낌의 타이핑 인터랙션 로직
-const startTyping = (text) => {
-  let i = 0;
-  const timer = setInterval(() => {
-    msg.value += text[i++];
-    if (i === text.length) clearInterval(timer);
-  }, 100);
-};`
+    codeSnippet: `// [핵심 로직] HTML 태그 노출을 방지하는 재귀적 타이핑 인터랙션 엔진
+async typeNextMessage(index) {
+  if (index >= this.aiMessages.length) return this.completeTyping();
+
+  const message = this.aiMessages[index];
+  
+  // 💡 정규표현식을 통해 HTML 태그와 일반 텍스트를 분리하여 태그 깨짐 현상 방지
+  const regex = /<\/?[^>]+>|[^<>]+/g;
+  const parts = message.fullText.match(regex) || [];
+  let partIdx = 0, charIdx = 0;
+
+  await new Promise((resolve) => {
+    this.typingInterval = setInterval(() => {
+      if (partIdx < parts.length) {
+        const part = parts[partIdx];
+        
+        // 태그는 즉시 반영, 일반 텍스트는 한 글자씩 타이핑하여 리얼리티 부여
+        if (part.startsWith('<')) {
+          message.typingText += part;
+          partIdx++;
+        } else if (charIdx < part.length) {
+          message.typingText += part[charIdx++];
+        } else {
+          partIdx++; charIdx = 0;
+        }
+        this.scrollToBottom(); // 실시간 스크롤 추적
+      } else {
+        clearInterval(this.typingInterval);
+        setTimeout(resolve, 1000); // 메시지 간 자연스러운 간격(1초) 부여
+      }
+    }, 105);
+  });
+
+  // 다음 메시지 순차 실행 (Async/Await 재귀 호출)
+  await this.typeNextMessage(++index);
+}`
   },
   {
     id: "master",
@@ -148,13 +224,41 @@ const startTyping = (text) => {
       "Axios 인터셉터를 활용한 공통 통신 모듈 및 전역 에러 핸들링 시스템을 구축하여 API 통신 안정성 확보",
       "PC, 태블릿 등 다양한 기기 환경에 대응하는 유연한 반응형 레이아웃 설계로 학습자 접근성 향상"
     ],
-    codeSnippet: `// 라우터 가드를 활용한 사용자 등급별 보안 로직
-router.beforeEach((to, from, next) => {
-  const role = authStore.userRole;
-  if (to.meta.requiresAdmin && role !== 'ADMIN') {
-    return next({ name: 'Forbidden' });
+    codeSnippet: `// [핵심 로직] Route Meta 필드를 활용한 다중 등급 권한 제어 시스템
+  
+// 1. 라우트 정의 시 등급별 접근 권한 설정 (확장성 고려)
+const routes = [
+  {
+    path: '/admin/dashboard',
+    component: AdminDashboard,
+    meta: { requiresAuth: true, roles: ['ADMIN'] } 
+  },
+  {
+    path: '/lecture/premium',
+    component: PremiumLecture,
+    meta: { requiresAuth: true, roles: ['ADMIN', 'PAID_USER'] }
   }
-  next();
+];
+
+// 2. 전역 가드를 통한 보안 라우팅 및 비정상 접근 차단
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
+  const { isAuthenticated, userRole } = authStore;
+
+  // 로그인 필수 페이지인데 토큰이 없는 경우
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    alert('로그인이 필요한 서비스입니다.');
+    return next({ name: 'Login', query: { redirect: to.fullPath } });
+  }
+
+  // 특정 역할(Role)이 필요한 페이지인데 권한이 부족한 경우
+  if (to.meta.roles && !to.meta.roles.includes(userRole)) {
+    console.warn(\`Unauthorized access: \${userRole} attempted to enter \${to.path}\`);
+    alert('해당 콘텐츠에 대한 접근 권한이 없습니다.');
+    return next({ name: 'Home' });
+  }
+
+  next(); // 모든 검증 통과 시 페이지 진입 허용
 });`
   },
   {
@@ -176,10 +280,27 @@ router.beforeEach((to, from, next) => {
       "사내 운영팀을 위한 콘텐츠 관리 시스템(CMS) 인터페이스를 구축하여 단순 수정 요청에 소요되는 개발 리소스를 크게 절감",
       "이미지 에셋 최적화 및 불필요한 스크립트 정리를 통해 초기 렌더링 속도 단축 및 사용자 이탈 방지"
     ],
-    codeSnippet: `<article class="company-vision">
-  <header><h1 class="title">기업 가치 및 비전</h1></header>
-  <section class="content"><p>씽크풀은 금융 AI 기술을 선도합니다.</p></section>
-</article>`
+    codeSnippet: `// [핵심 로직] SEO 최적화를 위한 JSON-LD 구조화 데이터 및 메타데이터 주입 시스템
+
+/* 구글 검색 결과에 기업 정보(이름, 로고, SNS 등)를 리치 결과로 
+   노출시키기 위한 JSON-LD 스크립트 설계 */
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "씽크풀(Thinkpool)",
+  "url": "https://info.thinkpool.com",
+  "description": "금융 AI 기술을 선도하는 알고리즘 플랫폼 기업"
+};
+
+// Vue.js 생명주기에 맞춰 페이지별 메타 태그와 스키마 정보를 동적으로 주입
+export default {
+  mounted() {
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(schemaData);
+    document.head.appendChild(script);
+  }
+}`
   },
   {
     id: "maintenance",
@@ -197,13 +318,45 @@ router.beforeEach((to, from, next) => {
       "웹 표준 및 웹 접근성 가이드를 반영하여 전사 서비스의 크로스 브라우징 및 디바이스 최적화 상시 수행",
       "규칙 없이 흩어져 있던 기존 서비스들의 UI 요소를 일관된 스타일 시스템으로 통합하여 전사 UI 일관성 확보"
     ],
-    codeSnippet: `// SCSS 믹스인 라이브러리 예시
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    codeSnippet: `// [핵심 로직] 전사 서비스 표준화를 위한 반응형 & 접근성 Mixin 시스템
+
+/* 브레이크포인트 관리와 미디어 쿼리를 추상화하여 
+   코드 가독성을 높이고 유지보수 포인트를 일원화함 */
+$breakpoints: (
+  'mobile': 480px,
+  'tablet': 768px,
+  'desktop': 1024px
+);
+
+@mixin respond-to($device) {
+  @if map-has-key($breakpoints, $device) {
+    @media screen and (max-width: map-get($breakpoints, $device)) {
+      @content;
+    }
+  }
 }
-.card { @include flex-center; }`
+
+/* 금융 서비스의 긴 텍스트 처리를 위한 접근성 고려 말줄임 시스템 */
+@mixin ellipsis($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// 적용 예시: 복잡한 카드 레이아웃도 단 몇 줄로 표준화 대응
+.product-card {
+  @include ellipsis(2); // 두 줄 말줄임 자동 처리
+  @include respond-to('mobile') {
+    padding: 10px; // 모바일 해상도 즉시 대응
+  }
+}`
   }
 ];
 
@@ -337,7 +490,7 @@ export default function ProjectsWindow() {
           </div>
 
           <div className={styles.techStack}>
-            <Code2 size={16} className="text-gray-400" />
+            <Code2 size={16} className="text-gray-300" />
             {activeProject.tech.map((t, i) => (
               <span key={i} className={styles.techTag}>{t}</span>
             ))}

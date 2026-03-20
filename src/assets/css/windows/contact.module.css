@@ -24,7 +24,7 @@
 }
 
 .iconWrapper {
-  @apply w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-white/70 transition-transform;
+  @apply w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-white/80 transition-transform;
 }
 
 /* 💡 부모(.contactCard)가 호버될 때 아이콘 확대 */
