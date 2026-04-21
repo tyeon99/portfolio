@@ -4,7 +4,7 @@ import { MousePointer2, Monitor, Layout } from "lucide-react";
 export default function Guide() {
   const steps = [
     { icon: <Monitor size={18} />, text: "상단 메뉴바를 통해 시스템 설정을 제어하세요." },
-    { icon: <MousePointer2 size={18} />, text: "바탕화면 아이콘을 더블 클릭하여 앱을 실행하세요." },
+    { icon: <MousePointer2 size={18} />, text: "바탕화면 아이콘을 클릭하여 앱을 실행하세요." },
     { icon: <Layout size={18} />, text: "하단 Dock을 통해 자주 쓰는 앱에 빠르게 접근하세요." },
   ];
 

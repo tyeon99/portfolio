@@ -30,7 +30,7 @@ export default function DesktopIcons({ onOpenApp }: DesktopIconsProps) {
     });
   }
 
-  const handleDoubleClick = (id: string) => {
+  const handleClick = (id: string) => {
     const iconBounds = iconRefs.current[id]?.current?.getBoundingClientRect() || null;
     onOpenApp(id, iconBounds);
   };
@@ -39,7 +39,7 @@ export default function DesktopIcons({ onOpenApp }: DesktopIconsProps) {
     <div className={styles.desktopContainer}>
       <div className={styles.column}>
         {leftIcons.map((app) => (
-          <div key={app.id} className={styles.iconWrapper} onDoubleClick={() => handleDoubleClick(app.id)} ref={iconRefs.current[app.id]}>
+          <div key={app.id} className={styles.iconWrapper} onClick={() => handleClick(app.id)} ref={iconRefs.current[app.id]}>
             <div className={styles.iconBox}>{app.icon}</div>
             <span className={styles.label}>{app.label}</span>
           </div>
@@ -47,7 +47,7 @@ export default function DesktopIcons({ onOpenApp }: DesktopIconsProps) {
       </div>
       <div className={styles.column}>
         {rightIcons.map((app) => (
-          <div key={app.id} className={styles.iconWrapper} onDoubleClick={() => handleDoubleClick(app.id)} ref={iconRefs.current[app.id]}>
+          <div key={app.id} className={styles.iconWrapper} onClick={() => handleClick(app.id)} ref={iconRefs.current[app.id]}>
             <div className={styles.iconBox}>{app.icon}</div>
             <span className={styles.label}>{app.label}</span>
           </div>
