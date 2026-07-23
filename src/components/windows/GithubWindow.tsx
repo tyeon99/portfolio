@@ -25,7 +25,6 @@ export default function GithubWindow() {
 
   return (
     <div className={styles.container}>
-      {/* 1. 프로필 헤더 */}
       <div className={styles.profileHeader}>
         <div className={styles.avatar}>
           <img src="https://github.com/tyeon99.png" alt="Profile" className="rounded-full" />
@@ -41,7 +40,6 @@ export default function GithubWindow() {
         </div>
       </div>
 
-      {/* 2. 💡 실시간 잔디 (GitHub Contribution Graph) */}
       <div className={styles.contributionWrapper}>
         <h3 className={styles.sectionTitle}>
           <Activity size={12} /> Contributions
@@ -58,12 +56,11 @@ export default function GithubWindow() {
             src="https://ghchart.rshah.org/tyeon99"
             alt="tyeon99's Github Chart"
             className={`${styles.grassImage} ${isGrassLoading ? styles.hidden : styles.visible}`}
-            onLoad={() => setIsGrassLoading(false)} // 💡 로드 완료 시 로딩 해제
+            onLoad={() => setIsGrassLoading(false)}
           />
         </div>
       </div>
 
-      {/* 3. 주요 저장소 (Pinned) */}
       <div className="space-y-3">
         <h3 className={styles.sectionTitle}>
           <BookMarked size={12} /> Pinned Repositories
@@ -91,7 +88,6 @@ export default function GithubWindow() {
         </div>
       </div>
 
-      {/* 4. 전체 방문 버튼 */}
       <button 
         className={styles.githubBtn}
         onClick={() => window.open("https://github.com/tyeon99", "_blank")}

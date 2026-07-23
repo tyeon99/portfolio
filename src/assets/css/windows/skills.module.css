@@ -34,7 +34,6 @@
   @apply space-y-3;
 }
 
-/* 💡 카드 스타일: hover 효과 포함 */
 .skillCard {
   @apply bg-white/5 border border-white/5 p-4 rounded-xl transition-all duration-300 shadow-sm;
 }
@@ -51,7 +50,6 @@
   @apply font-bold text-white transition-colors;
 }
 
-/* 💡 카드가 호버될 때 이름 색상 변경 */
 .skillCard:hover .skillName {
   @apply text-blue-300;
 }
@@ -62,4 +60,38 @@
 
 .description {
   @apply text-xs text-white/70 leading-relaxed;
+}
+
+@media (max-width: 768px) {
+  .container {
+    @apply p-0 space-y-6 pb-10 overflow-y-auto;
+  }
+
+  .header {
+    @apply pb-3 mb-4;
+  }
+
+  .title {
+    @apply text-xl;
+  }
+
+  .subTitle {
+    @apply text-xs;
+  }
+
+  .skillsGrid {
+    @apply grid-cols-1 gap-4;
+  }
+
+  .skillCard {
+    @apply p-3;
+  }
+
+  .skillName {
+    @apply text-sm;
+  }
+
+  .description {
+    @apply text-[11px] leading-normal;
+  }
 }

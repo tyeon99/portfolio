@@ -7,6 +7,7 @@ import Dock from "@/components/Dock";
 import DesktopIntro from "@/components/Intro";
 import DesktopIcons, { ALL_APPS } from "@/components/DesktopIcons";
 import WindowManager from "@/components/WindowManager";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const APP_CONFIG: Record<string, { w: number; h: number }> = {
   system: { w: 380, h: 520 },
@@ -16,6 +17,7 @@ const APP_CONFIG: Record<string, { w: number; h: number }> = {
 };
 
 export default function Home() {
+  const isMobile = useIsMobile();
   const [isLocked, setIsLocked] = useState(true);
   const [openWindowData, setOpenWindowData] = useState<{ id: string; fromRect: DOMRect | null }[]>([]);
   const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>({});
@@ -70,12 +72,13 @@ export default function Home() {
     <main className="relative h-screen w-full overflow-hidden">
       {isLocked && <LockScreen onStart={() => setIsLocked(false)} />}
 
-      <TopBar onOpenApp={handleOpenApp} />
+      <TopBar isMobile={isMobile} onOpenApp={handleOpenApp} />
       <DesktopIntro />
       
       <DesktopIcons onOpenApp={handleOpenApp} />
 
       <WindowManager 
+        isMobile={isMobile}
         openWindowData={openWindowData}
         positions={positions}
         sizes={sizes}

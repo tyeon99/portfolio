@@ -1,15 +1,14 @@
 .container {
-  @apply p-6 space-y-8 bg-transparent text-white; 
+  @apply p-6 space-y-8 bg-transparent text-white pb-20; 
 }
 
-/* Profile */
 .profileSection {
   @apply flex items-center gap-8 pb-8 border-b border-white/10;
 }
 
 .avatar {
   @apply w-28 h-28 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl 
-         flex items-center justify-center text-5xl font-bold shadow-2xl;
+         flex items-center justify-center text-5xl font-bold shadow-2xl shrink-0;
 }
 
 .name {
@@ -24,7 +23,6 @@
   @apply text-white/70 leading-relaxed max-w-xl italic;
 }
 
-/* Philosophy Grid */
 .sectionGrid {
   @apply grid grid-cols-1 md:grid-cols-2 gap-4;
 }
@@ -45,7 +43,6 @@
   @apply text-sm text-white/80 leading-relaxed;
 }
 
-/* Bottom Grid */
 .bottomGrid {
   @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
 }
@@ -66,7 +63,6 @@
   @apply flex items-start gap-2 text-sm text-white/80;
 }
 
-/* Timeline */
 .timeline {
   @apply space-y-4 border-l-2 border-white/10 ml-2 pl-4;
 }
@@ -88,7 +84,6 @@
 }
 
 .resumeCard {
-  /* 기본은 세로 정렬(mobile), sm(640px) 이상부터 가로 정렬 */
   @apply flex flex-col sm:flex-row justify-between items-center gap-5 p-5 bg-white/5 border border-white/10 rounded-xl text-center sm:text-left;
 }
 
@@ -100,17 +95,48 @@
   @apply flex gap-2.5;
 }
 
-/* 버튼 공통 스타일 */
 .viewButton, .downloadButton {
-  @apply flex items-center gap-1.5 px-4 py-2 rounded-lg text-[0.9rem] font-medium transition-all duration-200 no-underline;
+  @apply flex items-center gap-1.5 px-4 py-2 rounded-lg text-[0.9rem] font-medium transition-all duration-200 no-underline justify-center;
 }
 
-/* 이력서 바로보기 (Apple Blue) */
 .viewButton {
   @apply bg-[#007aff] text-white hover:bg-[#0063d1];
 }
 
-/* 이력서 다운로드 (Glassmorphism 스타일) */
 .downloadButton {
   @apply bg-white/10 border border-white/20 text-white hover:bg-white/20;
+}
+
+@media (max-width: 768px) {
+  .container {
+    @apply p-0 space-y-6 pb-10;
+  }
+
+  .profileSection {
+    @apply flex-col text-center gap-4 pb-6;
+  }
+
+  .avatar {
+    @apply w-20 h-20 text-3xl rounded-2xl;
+  }
+
+  .name {
+    @apply text-2xl;
+  }
+
+  .intro {
+    @apply text-xs leading-normal;
+  }
+
+  .resumeText {
+    @apply flex-col text-xs text-center;
+  }
+
+  .buttonGroup {
+    @apply w-full flex-col gap-2;
+  }
+
+  .viewButton, .downloadButton {
+    @apply w-full py-2.5 text-xs;
+  }
 }

@@ -45,3 +45,21 @@
 .content {
   @apply flex-1 p-6 text-white overflow-y-auto;
 }
+
+.mobileHeader {
+  @apply h-12 flex items-center justify-between px-2 bg-white/10 backdrop-blur-xl border-b border-white/10 select-none pt-2;
+}
+
+.mobileBackButton {
+  @apply flex items-center text-blue-400 font-normal text-sm cursor-pointer active:opacity-50 transition-opacity;
+}
+
+.mobileTitleText {
+  @apply text-white font-semibold text-base text-center flex-1;
+}
+
+@media (max-width: 768px) {
+  .content{
+    @apply p-5;
+  }
+}

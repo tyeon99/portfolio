@@ -71,7 +71,6 @@ export default function AboutWindow() {
 
   return (
     <div className={styles.container}>
-      {/* 1. Profile Section */}
       <section className={styles.profileSection}>
         <div className={styles.avatar}>T</div>
         <div className={styles.profileInfo}>
@@ -81,7 +80,6 @@ export default function AboutWindow() {
         </div>
       </section>
 
-      {/* 2. Core Values (자소서 기반) */}
       <div className={styles.sectionGrid}>
         {ABOUT_DATA.coreValues.map((item, idx) => (
           <div key={idx} className={styles.philosophyCard}>
@@ -94,7 +92,6 @@ export default function AboutWindow() {
         ))}
       </div>
 
-      {/* 3. Strengths & Growth Log */}
       <div className={styles.bottomGrid}>
         <section className={styles.listSection}>
           <div className={styles.listHeader}>
@@ -127,11 +124,10 @@ export default function AboutWindow() {
         </section>
       </div>
 
-      {/* 이력서 다운로드/바로보기 */}
       <section className={styles.resumeSection}>
         <div className={styles.resumeCard}>
           <div className={styles.resumeText}>
-            <FileText size={20} className="text-blue-400" />
+            <FileText size={20} className="text-blue-400 shrink-0" />
             <span>상세한 이력이 궁금하시다면 이력서를 확인해 보세요.</span>
           </div>
           <div className={styles.buttonGroup}>

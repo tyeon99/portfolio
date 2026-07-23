@@ -32,3 +32,34 @@
 .iconWrapper:hover .label {
   @apply bg-blue-500/80;
 }
+
+@media (max-width: 768px) {
+  .desktopContainer {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px 12px !important;
+    padding: 60px 16px 100px 16px !important;
+    justify-items: center;
+    align-content: start;
+  }
+
+  .column {
+    display: contents !important;
+  }
+
+  .iconWrapper {
+    width: 100% !important;
+    max-width: 72px;
+  }
+
+  .iconBox {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 16px !important;
+  }
+
+  .label {
+    font-size: 11px !important;
+    margin-top: 2px;
+  }
+}

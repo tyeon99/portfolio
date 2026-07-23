@@ -1,14 +1,13 @@
-/* --- 기본 컨테이너 --- */
 .container {
   @apply flex h-full bg-transparent text-white overflow-hidden;
 }
 
-/* --- 왼쪽 사이드바 --- */
 .sidebarSectionLabel {
   @apply text-[10px] text-white/30 font-bold uppercase tracking-[0.15em] px-3 mb-2;
 }
+
 .sidebar {
-  @apply w-1/3 min-w-[200px] max-w-[300px] h-full border-r border-white/10 p-4 overflow-y-auto pl-0;
+  @apply w-1/3 min-w-[200px] max-w-[300px] h-full border-r border-white/10 p-4 overflow-y-auto pl-0 shrink-0;
 }
 
 .sidebarTitle {
@@ -16,6 +15,10 @@
 }
 
 .projectList {
+  @apply flex flex-col gap-1;
+}
+
+.sidebarGroup {
   @apply flex flex-col gap-1;
 }
 
@@ -35,19 +38,16 @@
   @apply text-[10px] text-white/70 mt-0.5;
 }
 
-/* --- 오른쪽 상세 내용 영역 --- */
 .contentArea {
   @apply flex-1 h-full overflow-y-auto p-4 md:p-6 space-y-6 relative;
 }
 
-/* --- 이미지 갤러리 & Swiper --- */
 .imageGallery {
   @apply w-full mb-8 overflow-hidden rounded-2xl border border-white/10 relative;
 }
 
 .mySwiper {
   @apply w-full h-full;
-  /* Swiper 내부 화살표/점 색상 커스텀 */
   --swiper-theme-color: #3b82f6; 
   --swiper-navigation-size: 20px;
 }
@@ -56,10 +56,8 @@
   @apply relative w-full aspect-video flex items-center justify-center overflow-hidden;
 }
 
-/* 💡 로딩 스피너 컨테이너 */
 .loaderContainer {
   @apply absolute inset-0 flex items-center justify-center z-10;
-  
   background-image: url('/portfolio/img/img-bg.png');
   background-size: cover;
   background-position: center;
@@ -71,7 +69,6 @@
   @apply w-full h-full object-contain transition-opacity duration-500;
 }
 
-/* 💡 로딩 전후 이미지 투명도 조절 */
 .hidden {
   opacity: 0;
 }
@@ -80,7 +77,6 @@
   opacity: 1;
 }
 
-/* --- 텍스트 정보 헤더 --- */
 .headerTitleRow {
   @apply flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2;
 }
@@ -89,7 +85,6 @@
   @apply text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent leading-tight;
 }
 
-/* --- 링크 버튼 --- */
 .linkGroup {
   @apply flex gap-2;
 }
@@ -103,7 +98,6 @@
   @apply bg-white/10 hover:bg-white/20 text-white border border-white/10 shadow-none;
 }
 
-/* --- 상세 정보 섹션 --- */
 .infoSection {
   @apply space-y-6;
 }
@@ -128,7 +122,6 @@
   @apply px-2 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-bold tracking-wider;
 }
 
-/* --- 공통 섹션 헤더 --- */
 .sectionHeader {
   @apply flex items-center gap-2 mb-3 mt-4;
 }
@@ -141,7 +134,6 @@
   @apply space-y-2 text-sm text-white/80 leading-relaxed pl-1;
 }
 
-/* --- 터미널 & 코드 스타일 --- */
 .terminal {
   @apply bg-[#1e1e1e] rounded-xl overflow-hidden border border-white/10 shadow-2xl my-4;
 }
@@ -170,7 +162,6 @@
   @apply whitespace-pre;
 }
 
-/* --- 터미널 내 코드 탭 시스템 --- */
 .codeTabGroup {
   @apply flex ml-auto gap-1 bg-black/30 p-1 rounded-lg border border-white/5;
 }
@@ -179,21 +170,17 @@
   @apply px-3 py-1 text-[11px] font-bold rounded-md transition-all text-white/40 hover:text-white/70;
 }
 
-/* Vue 탭 활성화 */
 .tabVueActive {
   @apply bg-green-500/10 text-green-400 border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.1)];
 }
 
-/* React 탭 활성화 */
 .tabReactActive {
   @apply bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-[0_0_10px_rgba(59,130,246,0.1)];
 }
 
-/* --- Swiper 전역 커스텀 (내비게이션 버튼 등) --- */
 :global(.swiper-button-prev),
 :global(.swiper-button-next) {
   @apply w-10 h-10 flex items-center justify-center transition-all duration-300 bg-none;
-  
   opacity: 0.3; 
   --swiper-navigation-color: rgba(255, 255, 255, 0.5);
   --swiper-navigation-size: 20px;
@@ -202,7 +189,7 @@
 
 :global(.swiper-button-disabled) {
   opacity: 0 !important;
-  pointer-events: none; /* 클릭도 안 되게 차단 */
+  pointer-events: none;
 }
 
 .imageGallery:hover :global(.swiper-button-prev:not(.swiper-button-disabled)),
@@ -212,5 +199,51 @@
 
 :global(.swiper-button-prev:not(.swiper-button-disabled)):hover,
 :global(.swiper-button-next:not(.swiper-button-disabled)):hover {
-  @apply scale-110; /* 살짝 커지는 효과 */
+  @apply scale-110;
+}
+
+@media (max-width: 768px) {
+  .container {
+    @apply flex-col;
+  }
+
+  .sidebar {
+    @apply w-full max-w-none h-auto border-r-0 border-b border-white/10 p-2 overflow-x-auto pl-2 shrink-0;
+  }
+
+  .sidebarTitle {
+    @apply hidden;
+  }
+
+  .sidebarSectionLabel {
+    @apply hidden;
+  }
+
+  .projectList {
+    @apply flex-row gap-2 min-w-max pb-1;
+  }
+
+  .sidebarGroup {
+    @apply flex-row gap-2;
+  }
+
+  .projectItem {
+    @apply w-auto py-1.5 px-3 whitespace-nowrap;
+  }
+
+  .itemType {
+    @apply hidden;
+  }
+
+  .contentArea {
+    @apply p-4 space-y-4 pb-10;
+  }
+
+  .detailTitle {
+    @apply text-xl;
+  }
+
+  .codeContent {
+    @apply p-3 text-xs;
+  }
 }

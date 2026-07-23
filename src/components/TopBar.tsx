@@ -2,11 +2,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Command, Wifi, BatteryMedium } from "lucide-react";
+import { Command, Wifi, BatteryMedium, Signal } from "lucide-react";
 import styles from "@/assets/css/topbar.module.css";
 
-// 💡 1. 여기에 인터페이스 추가 (창 여는 함수 타입 정의)
 interface TopBarProps {
+  isMobile?: boolean; // 💡 모바일 여부 추가
   onOpenApp?: (id: string, rect: DOMRect | null) => void;
 }
 
@@ -44,8 +44,7 @@ const WALLPAPERS = [
 
 const RESUME_PATH = "/portfolio/pdf/[3년차]프론트엔드_김태연_이력서.pdf";
 
-// 💡 2. 파라미터에서 { onOpenApp } 받아오기
-export default function TopBar({ onOpenApp }: TopBarProps) {
+export default function TopBar({ isMobile = false, onOpenApp }: TopBarProps) {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -92,7 +91,7 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
 
       case "download":
         const link = document.createElement("a");
-        link.href = "/portfolio/pdf/[3년차]프론트엔드_김태연_이력서.pdf";
+        link.href = RESUME_PATH;
         link.download = "[3년차]프론트엔드_김태연_이력서.pdf";
         document.body.appendChild(link);
         link.click();
@@ -131,11 +130,11 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
         break;
 
       case "open_system":
-        onOpenApp?.("system", null); // 시스템 정보 전용 ID
+        onOpenApp?.("system", null);
         break;
 
       case "open_guide":
-        onOpenApp?.("guide", null); // 가이드 전용 ID
+        onOpenApp?.("guide", null);
         break;
 
       default:
@@ -145,7 +144,8 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
     setActiveMenu(null);
   };
 
-  const formatTime = (date: Date) => {
+  // 💡 맥 OS 포맷 (MM월 DD일 (요일) HH:mm)
+  const formatMacTime = (date: Date) => {
     if (!date) return "...";
     const month = date.getMonth() + 1;
     const day = date.getDate();
@@ -156,52 +156,78 @@ export default function TopBar({ onOpenApp }: TopBarProps) {
     return `${month}월 ${day}일 (${weekDay}) ${hours}:${minutes}`;
   };
 
+  // 💡 iOS 모바일 포맷 (HH:mm)
+  const formatIosTime = (date: Date) => {
+    if (!date) return "--:--";
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
   const menuList = Object.keys(MENU_DATA) as Array<keyof typeof MENU_DATA>;
 
   return (
     <div className={styles.topBarContainer}>
-      {/* 복사 완료 토스트메세지 */}
+      {/* 복사 완료 토스트 메세지 */}
       <div className={`${styles.copyToast} ${copyStatus ? styles.show : ""}`}>
         Copied!
       </div>
-      <div className={styles.leftMenu}>
-        <Command size={14} className="cursor-pointer" />
-        <span className="font-bold cursor-pointer ml-1">TaeYeon</span>
 
-        {menuList.map((menu) => (
-          <div key={menu} className="relative">
-            <span
-              className={`${styles.menuItem} ${activeMenu === menu ? "bg-white/20" : ""}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                setActiveMenu(activeMenu === menu ? null : menu);
-              }}
-            >
-              {menu}
-            </span>
-
-            {activeMenu === menu && (
-              <div className={styles.dropdown}>
-                {MENU_DATA[menu].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className={styles.dropdownItem}
-                    onClick={() => handleAction(item)}
-                  >
-                    {item.label}
-                  </div>
-                ))}
-              </div>
-            )}
+      {/* 💡 모바일(iOS 상태바)일 때 UI */}
+      {isMobile ? (
+        <div className={styles.mobileStatusBar}>
+          <div className="font-semibold text-[13px] pl-2">
+            {isMounted && currentTime ? formatIosTime(currentTime) : "09:41"}
           </div>
-        ))}
-      </div>
+          <div className="flex items-center gap-1.5 pr-1">
+            <Signal size={13} />
+            <Wifi size={13} />
+            <BatteryMedium size={15} />
+          </div>
+        </div>
+      ) : (
+        /* 💡 데스크톱(macOS 상단바)일 때 UI */
+        <>
+          <div className={styles.leftMenu}>
+            <Command size={14} className="cursor-pointer" />
+            <span className="font-bold cursor-pointer ml-1">TaeYeon</span>
 
-      <div className={styles.rightMenu}>
-        <Wifi size={14} />
-        <BatteryMedium size={14} />
-        <span>{isMounted && currentTime ? formatTime(currentTime) : "..."}</span>
-      </div>
+            {menuList.map((menu) => (
+              <div key={menu} className="relative">
+                <span
+                  className={`${styles.menuItem} ${activeMenu === menu ? "bg-white/20" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveMenu(activeMenu === menu ? null : menu);
+                  }}
+                >
+                  {menu}
+                </span>
+
+                {activeMenu === menu && (
+                  <div className={styles.dropdown}>
+                    {MENU_DATA[menu].map((item, idx) => (
+                      <div
+                        key={idx}
+                        className={styles.dropdownItem}
+                        onClick={() => handleAction(item)}
+                      >
+                        {item.label}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.rightMenu}>
+            <Wifi size={14} />
+            <BatteryMedium size={14} />
+            <span>{isMounted && currentTime ? formatMacTime(currentTime) : "..."}</span>
+          </div>
+        </>
+      )}
     </div>
   );
 }

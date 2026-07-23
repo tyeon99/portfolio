@@ -63,3 +63,28 @@
   from { transform: translate(0, 0) rotate(0deg); }
   to { transform: translate(var(--x), var(--y)) rotate(360deg); }
 }
+
+/* 💡 모바일(768px 이하) 대응 스타일 */
+@media (max-width: 768px) {
+  .glassCard {
+    @apply mt-10;
+    padding: 2rem 1rem !important; /* 과도한 p-40 패딩을 모바일에 맞게 축소 */
+    width: 90% !important;
+  }
+
+  .mainTitle {
+    font-size: 2.5rem !important; /* text-[8vw] 모바일 해상도 보정 */
+  }
+
+  .description {
+    @apply text-center;
+    font-size: 0.875rem !important; /* 14px로 축소 */
+    letter-spacing: 0.2em !important; /* 글자 간격 보정 */
+    margin-top: 0.75rem !important;
+  }
+
+  /* 모바일 바탕화면 아이콘들과 시각적으로 겹치는 거 방지하기 위해 파티클 숨김 */
+  .particleIcon {
+    display: none !important;
+  }
+}

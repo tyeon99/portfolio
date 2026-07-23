@@ -154,3 +154,40 @@
 .startButton:active {
   @apply scale-[0.98] opacity-80;
 }
+
+.swipeHint {
+  @apply hidden text-white/50 text-xs mt-3 animate-pulse font-light;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 3rem 1.5rem !important; /* p-20 과도한 패딩 축소 */
+  }
+
+  .time {
+    font-size: 56px !important;
+  }
+
+  .date {
+    font-size: 0.95rem !important;
+  }
+
+  .guideCard {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .guideTitle {
+    font-size: 1rem !important;
+    margin-bottom: 1rem !important;
+    letter-spacing: 0.2em !important;
+  }
+
+  .guideList li {
+    font-size: 0.825rem !important;
+    text-align: center;
+  }
+
+  .swipeHint {
+    display: block !important; /* 모바일에서만 스와이프 힌트 노출 */
+  }
+}

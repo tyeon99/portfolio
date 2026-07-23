@@ -8,7 +8,6 @@ export default function ContactWindow() {
   const [copiedType, setCopiedType] = useState<string | null>(null);
 
   const handleCopy = async (text: string, type: string) => {
-    // 💡 최신 API 시도
     if (navigator.clipboard && window.isSecureContext) {
       try {
         await navigator.clipboard.writeText(text);
@@ -17,11 +16,9 @@ export default function ContactWindow() {
         console.error("복사 실패:", err);
       }
     } else {
-      // 💡 보안 환경이 아닐 때 사용하는 예전 방식 (Fallback)
       const textArea = document.createElement("textarea");
       textArea.value = text;
       
-      // 화면에 안 보이게 숨기기
       textArea.style.position = "fixed";
       textArea.style.left = "-9999px";
       textArea.style.top = "0";
@@ -89,7 +86,6 @@ export default function ContactWindow() {
               <span className={styles.value}>{item.value}</span>
             </div>
             
-            {/* 💡 클래스명을 styles.actionIconWrapper 로 교체! */}
             <div className={styles.actionIconWrapper}>
               {item.action === "copy" ? (
                 copiedType === item.id ? <Check size={14} className="text-green-400" /> : <Copy size={14} />

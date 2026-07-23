@@ -16,13 +16,11 @@ import {
 } from "lucide-react";
 import styles from "@/assets/css/windows/projects.module.css";
 
-// Swiper 관련 임포트
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-// --- 💡 TypeScript 인터페이스 정의 (any 사용 금지) ---
 interface ProjectLink {
   label: string;
   url: string;
@@ -140,8 +138,9 @@ mergeLocalCart: async () => {
     imgCode: "02",
     imageCount: 3,
     links: [ { label: "GitHub", url: "https://github.com/tyeon99/portfolio", icon: <Github size={14} /> } ],
-    summary: "macOS 인터페이스를 웹으로 구현한 인터랙티브 포트폴리오입니다. 실제 OS와 유사한 사용자 경험과 안정적인 하이드레이션 처리에 중점을 두었습니다.",
+    summary: "macOS 인터페이스를 웹으로 구현한 인터랙티브 포트폴리오입니다. 데스크톱 중심의 macOS 경험뿐만 아니라 스마트폰 환경에 최적화된 모바일 전용 반응형 UX/UI까지 정교하게 설계했습니다.",
     achievements: [
+      "디바이스 환경별 반응형 레이아웃 분리 구현: 데스크톱 뷰에서는 macOS 상단바 및 Dock 인터페이스를 유지하고, 모바일 뷰 진입 시 iOS 스타일 상태바, 터치 스와이프 제스처 및 전체화면 모달로 유연하게 전환되도록 최적화",
       "Next.js App Router 환경에서 클라이언트 컴포넌트 마운트 시점을 제어하는 'isMounted' 패턴으로 하이드레이션 불일치 에러 해결",
       "시스템 부팅 시점에 주요 에셋을 Image 객체로 선제적 프리로딩하여 앱 실행 시 화이트 플래시 현상 해결",
       "GitHub Actions를 활용한 CI/CD 파이프라인 구축으로 자동 빌드 및 정적 배포 프로세스 최적화"
@@ -316,7 +315,7 @@ export default function ProjectsWindow() {
 
   useEffect(() => {
     setLoadedImages({});
-    setActiveCodeTab("vue"); // 프로젝트 바뀔 때마다 탭 초기화
+    setActiveCodeTab("vue");
     if (contentAreaRef.current) contentAreaRef.current.scrollTop = 0;
   }, [activeId]);
 
@@ -331,9 +330,9 @@ export default function ProjectsWindow() {
       className={`${styles.projectItem} ${activeId === project.id ? styles.activeItem : ""}`}
     >
       {project.type === "Work" ? (
-        <Briefcase size={16} className="text-blue-400" />
+        <Briefcase size={16} className="text-blue-400 shrink-0" />
       ) : (
-        <FolderGit2 size={16} className="text-purple-400" />
+        <FolderGit2 size={16} className="text-purple-400 shrink-0" />
       )}
       <div className="text-left overflow-hidden">
         <p className={styles.itemTitle}>{project.title}</p>
@@ -349,11 +348,11 @@ export default function ProjectsWindow() {
         <div className={styles.projectList}>
           <div className="mb-6">
             <h3 className={styles.sidebarSectionLabel}>Side Projects</h3>
-            <div className="flex flex-col gap-1">{personalProjects.map(renderProjectItem)}</div>
+            <div className={styles.sidebarGroup}>{personalProjects.map(renderProjectItem)}</div>
           </div>
           <div>
             <h3 className={styles.sidebarSectionLabel}>Work Experience</h3>
-            <div className="flex flex-col gap-1">{workProjects.map(renderProjectItem)}</div>
+            <div className={styles.sidebarGroup}>{workProjects.map(renderProjectItem)}</div>
           </div>
         </div>
       </div>
@@ -412,7 +411,7 @@ export default function ProjectsWindow() {
           </div>
 
           <div className={styles.techStack}>
-            <Code2 size={16} className="text-gray-300" />
+            <Code2 size={16} className="text-gray-300 shrink-0" />
             {activeProject.tech.map((t, i) => (
               <span key={i} className={styles.techTag}>{t}</span>
             ))}
@@ -423,7 +422,6 @@ export default function ProjectsWindow() {
               <Terminal size={18} className="text-blue-400" />
               <h3 className={styles.sectionSubtitle}>Logic Insight</h3>
               
-              {/* 💡 탭 버튼 렌더링 (Type Guard 사용) */}
               {"codeSnippets" in activeProject && (
                 <div className={styles.codeTabGroup}>
                   <button 
